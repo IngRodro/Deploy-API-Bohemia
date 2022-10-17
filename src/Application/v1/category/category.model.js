@@ -2,27 +2,11 @@ import mongoose from 'mongoose';
 import getModelName from 'Utils/getModelName';
 
 const { Schema } = mongoose;
-const { singularName, pluralName } = getModelName('users');
+const { singularName, pluralName } = getModelName('categories');
 
 const schema = new Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
-    user: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    userType: {
+    categorieName: {
       type: String,
       required: true,
     },
@@ -47,7 +31,6 @@ schema.set('toJSON', {
   versionKey: false,
   transform(_doc, ret) {
     // eslint-disable-next-line no-param-reassign,no-underscore-dangle
-    ret.id = ret._id;
     delete ret._id;
   },
 });

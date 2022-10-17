@@ -1,30 +1,45 @@
 import mongoose from 'mongoose';
 import getModelName from 'Utils/getModelName';
 
+// importamos el modulo de mongoosePaginate
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const { Schema } = mongoose;
-const { singularName, pluralName } = getModelName('users');
+const { singularName, pluralName } = getModelName('shoes');
 
 const schema = new Schema(
   {
-    userName: {
+    size: {
       type: String,
       required: true,
     },
-    phone: {
+    color: {
       type: String,
       required: true,
     },
-    user: {
+    price: {
       type: String,
       required: true,
     },
-    password: {
+    url: {
       type: String,
       required: true,
     },
-    userType: {
-      type: String,
-      required: true,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'categories',
+    },
+    trademark: {
+      type: Schema.Types.ObjectId,
+      ref: 'trademarks',
+    },
+    model: {
+      type: Schema.Types.ObjectId,
+      ref: 'models',
+    },
+    style: {
+      type: Schema.Types.ObjectId,
+      ref: 'styles',
     },
     status: {
       type: String,
@@ -51,6 +66,9 @@ schema.set('toJSON', {
     delete ret._id;
   },
 });
+
+// agregamos el plugin de mongoosePaginate
+schema.plugin(mongoosePaginate);
 
 // rename name Example to singular Model
 // eslint-disable-next-line operator-linebreak
