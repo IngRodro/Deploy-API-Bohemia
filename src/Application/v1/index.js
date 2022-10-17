@@ -1,15 +1,18 @@
 import express from 'express';
-import { TokenValidation } from 'Utils/Authentication';
-import restaurantRoutes from './restaurant/restaurant.route';
-import productRoutes from './product/product.route';
-import menuRoutes from './menuOptions/menuOptions.route';
-import userRoutes from './user/user.route';
+import categorieRoutes from './category/category.route';
+import styleRoutes from './shoeStyle/style.router';
+import trademarkRoutes from './trademark/trademark.router';
+import shoeModelRoutes from './shoeModel/shoeModel.router';
+import shoeRoutes from './shoe/shoe.router';
+import userRoutes from './user/user.router';
 
 const router = express.Router();
 
-router.use('/restaurants', restaurantRoutes);
-router.use('/products', TokenValidation, productRoutes);
-router.use('/menu', TokenValidation, menuRoutes);
+router.use('/categories', categorieRoutes);
+router.use('/styles', styleRoutes);
+router.use('/trademark', trademarkRoutes);
+router.use('/models', shoeModelRoutes);
+router.use('/shoes', shoeRoutes);
 router.use('/users', userRoutes);
 
 export default router;

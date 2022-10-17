@@ -2,27 +2,11 @@ import mongoose from 'mongoose';
 import getModelName from 'Utils/getModelName';
 
 const { Schema } = mongoose;
-const { singularName, pluralName } = getModelName('users');
+const { singularName, pluralName } = getModelName('models');
 
 const schema = new Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
-    user: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    userType: {
+    modelName: {
       type: String,
       required: true,
     },
