@@ -1,16 +1,16 @@
-"use strict";
+import express from 'express';
+import {
+  getMenu,
+  createMenu,
+  updateMenu,
+  deleteMenu,
+} from './menuOptions.controller';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _express = _interopRequireDefault(require("express"));
-var _menuOptions = require("./menuOptions.controller");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const router = _express.default.Router();
-router.get('/:idRestaurant', _menuOptions.getMenu);
-router.post('/', _menuOptions.createMenu);
-router.put('/:idMenu', _menuOptions.updateMenu);
-router.delete('/:idMenu', _menuOptions.deleteMenu);
-var _default = router;
-exports.default = _default;
+const router = express.Router();
+
+router.get('/:idRestaurant', getMenu);
+router.post('/', createMenu);
+router.put('/:idMenu', updateMenu);
+router.delete('/:idMenu', deleteMenu);
+
+export default router;

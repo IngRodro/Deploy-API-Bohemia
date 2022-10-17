@@ -1,23 +1,31 @@
-"use strict";
+import express from 'express';
+import fileUpload from 'express-fileupload';
+import {
+  getAllProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from './product.controller';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _express = _interopRequireDefault(require("express"));
-var _expressFileupload = _interopRequireDefault(require("express-fileupload"));
-var _product = require("./product.controller");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const router = _express.default.Router();
-router.get('/:idRestaurant', _product.getAllProduct);
-router.post('/', (0, _expressFileupload.default)({
-  useTempFiles: true,
-  tempFileDir: './uploads'
-}), _product.createProduct);
-router.put('/:idProduct', (0, _expressFileupload.default)({
-  useTempFiles: true,
-  tempFileDir: './uploads'
-}), _product.updateProduct);
-router.delete('/:idProduct', _product.deleteProduct);
-var _default = router;
-exports.default = _default;
+const router = express.Router();
+
+router.get('/:idRestaurant', getAllProduct);
+router.post(
+  '/',
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: './uploads',
+  }),
+  createProduct
+);
+router.put(
+  '/:idProduct',
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: './uploads',
+  }),
+  updateProduct
+);
+router.delete('/:idProduct', deleteProduct);
+
+export default router;

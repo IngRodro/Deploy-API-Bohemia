@@ -1,16 +1,11 @@
-"use strict";
+import express from 'express';
+import { createUser, loginUser, updateUser } from './user.controller';
+import { TokenValidation } from '../../../Utils/Authentication';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _express = _interopRequireDefault(require("express"));
-var _user = require("./user.controller");
-var _Authentication = require("../../../Utils/Authentication");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const router = _express.default.Router();
-router.get('/login', _user.loginUser);
-router.post('/', _user.createUser);
-router.put('/', _Authentication.TokenValidation, _user.updateUser);
-var _default = router;
-exports.default = _default;
+const router = express.Router();
+
+router.get('/login', loginUser);
+router.post('/', createUser);
+router.put('/', TokenValidation, updateUser);
+
+export default router;

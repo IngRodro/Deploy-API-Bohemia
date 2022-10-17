@@ -2,38 +2,27 @@ import mongoose from 'mongoose';
 import getModelName from 'Utils/getModelName';
 
 const { Schema } = mongoose;
-const { singularName, pluralName } = getModelName('users');
+export const { singularName, pluralName } = getModelName('user');
 
-const schema = new Schema(
+const user = new Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
-    user: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    userType: {
+    name: {
       type: String,
       required: true,
     },
     status: {
       type: String,
-      enum: ['active', 'inactive'],
+      enum: ['active', 'inactive', 'deleted'],
       default: 'active',
     },
-    created_at: {
-      type: Date,
-      default: Date.now,
+    password: {
+      type: String,
+      require: true,
+    },
+    username: {
+      type: String,
+      require: true,
+      unique: true,
     },
   },
   {
@@ -42,17 +31,14 @@ const schema = new Schema(
 );
 
 // Ensure virtual fields are serialised.
-schema.set('toJSON', {
+user.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform(_doc, ret) {
-    // eslint-disable-next-line no-param-reassign,no-underscore-dangle
-    ret.id = ret._id;
     delete ret._id;
   },
 });
 
 // rename name Example to singular Model
-// eslint-disable-next-line operator-linebreak
 export default mongoose.models[singularName] ||
-  mongoose.model(pluralName, schema);
+  mongoose.model(pluralName, user);

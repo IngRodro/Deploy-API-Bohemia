@@ -1,25 +1,29 @@
-"use strict";
+import express from 'express';
+import fileUpload from 'express-fileupload';
+import {
+  getRestaurantByUser,
+  createRestaurant,
+  updateRestaurant,
+  deleteRestaurant,
+  getRestaurantByLocation,
+} from './restaurant.controller';
+import { TokenValidation } from '../../../Utils/Authentication';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _express = _interopRequireDefault(require("express"));
-var _expressFileupload = _interopRequireDefault(require("express-fileupload"));
-var _restaurant = require("./restaurant.controller");
-var _Authentication = require("../../../Utils/Authentication");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const router = _express.default.Router();
-router.get('/byUser', _Authentication.TokenValidation, _restaurant.getRestaurantByUser);
-router.get('/', _restaurant.getRestaurantByLocation);
-router.post('/', _Authentication.TokenValidation, (0, _expressFileupload.default)({
-  useTempFiles: true,
-  tempFileDir: './uploads'
-}), _restaurant.createRestaurant);
-router.put('/:idRestaurant', _Authentication.TokenValidation, (0, _expressFileupload.default)({
-  useTempFiles: true,
-  tempFileDir: './uploads'
-}), _restaurant.updateRestaurant);
-router.delete('/:idRestaurant', _Authentication.TokenValidation, _restaurant.deleteRestaurant);
-var _default = router;
-exports.default = _default;
+const router = express.Router();
+
+router.get('/byUser', TokenValidation, getRestaurantByUser);
+router.get('/', getRestaurantByLocation);
+router.post(
+  '/', TokenValidation, fileUpload({
+    useTempFiles: true,
+    tempFileDir: './uploads',
+  }), createRestaurant
+);
+router.put(
+  '/:idRestaurant', TokenValidation, fileUpload({
+    useTempFiles: true,
+    tempFileDir: './uploads',
+  }), updateRestaurant
+);
+router.delete('/:idRestaurant', TokenValidation, deleteRestaurant);
+export default router;
