@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import getModelName from 'Utils/getModelName';
 
 const { Schema } = mongoose;
-export const { singularName, pluralName } = getModelName('user');
+export const { singularName, pluralName } = getModelName('product');
 
-const user = new Schema(
+const product = new Schema(
   {
     name: {
       type: String,
@@ -15,14 +15,20 @@ const user = new Schema(
       enum: ['active', 'inactive', 'deleted'],
       default: 'active',
     },
-    password: {
-      type: String,
-      require: true,
+    image: {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      secure_url: {
+        type: String,
+        required: true,
+      },
     },
-    username: {
-      type: String,
-      require: true,
-      unique: true,
+    user: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'users',
     },
   },
   {
@@ -31,7 +37,7 @@ const user = new Schema(
 );
 
 // Ensure virtual fields are serialised.
-user.set('toJSON', {
+product.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform(_doc, ret) {
@@ -41,4 +47,4 @@ user.set('toJSON', {
 
 // rename name Example to singular Model
 export default mongoose.models[singularName] ||
-  mongoose.model(pluralName, user);
+  mongoose.model(pluralName, product);
